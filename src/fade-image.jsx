@@ -28,7 +28,7 @@ export default class FadeImage extends Component {
         window.removeEventListener('scroll', this.scrollHandler);
     }
 
-    scrollHandler(scrollEvent){
+    scrollHandler(scrollEvent) {
         let scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
         const { top, height } = this.refs.container.getBoundingClientRect();
         let offsetTop = this.refs.container.offsetTop;
@@ -40,6 +40,7 @@ export default class FadeImage extends Component {
         if (scrollTop >= offsetTop && !this.state.loaded) {
             //console.log("Append img src", this.props.src);
             this.refs.image.src = this.props.src;
+            window.removeEventListener('scroll', this.scrollHandler);
         }
     }
 
