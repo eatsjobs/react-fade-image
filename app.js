@@ -1,3 +1,4 @@
+var FadeImage = FadeImage.__esModule && FadeImage.default ? FadeImage.default : FadeImage;
 ReactDOM.render(React.createElement(
     'div',
     null,

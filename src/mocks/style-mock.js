@@ -1,5 +1,5 @@
 module.exports = {
-    fadeImg: 'mocked',
-    container:'mocked-container',
-    imgLoaded: 'mocked-imgLoaded'
+    fadeImg: 'fadeImg',
+    container:'container',
+    imgLoaded: 'imgLoaded'
 };
