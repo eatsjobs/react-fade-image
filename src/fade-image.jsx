@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { throttle } from 'docomo-utils';
+
 import style from './fade-image.css';
 
 export default class FadeImage extends Component {
     constructor(props){
         super(props);
         this.onImgLoad = this.onImgLoad.bind(this);
-        this.onImgError = this.onImgError.bind(this);
-        this.scrollHandler = this.scrollHandler.bind(this);
+        this.onImgError = this.onImgError.bind(this);        
+        
+        this._scrollHandler = throttle(this.scrollHandler.bind(this), 400);
         this.state = { loaded: false };
     }
 
@@ -18,17 +21,16 @@ export default class FadeImage extends Component {
         this.setState({ loaded: false });
     }
 
-    componentDidMount(){
-        this.scrollHandler();
-        //TODO add throttle function
-        window.addEventListener('scroll', this.scrollHandler);
+    componentDidMount(){        
+        this._scrollHandler();
+        window.addEventListener('scroll', this._scrollHandler);
     }
 
     componentWillUnmount(){
-        window.removeEventListener('scroll', this.scrollHandler);
+        window.removeEventListener('scroll', this._scrollHandler);        
     }
 
-    scrollHandler(scrollEvent){
+    scrollHandler(scrollEvent) {
         let scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
         const { top, height } = this.refs.container.getBoundingClientRect();
         let offsetTop = this.refs.container.offsetTop;
@@ -40,6 +42,10 @@ export default class FadeImage extends Component {
         if (scrollTop >= offsetTop && !this.state.loaded) {
             //console.log("Append img src", this.props.src);
             this.refs.image.src = this.props.src;
+        } 
+
+        if(this.state.loaded){
+            window.removeEventListener('scroll', this._scrollHandler);     
         }
     }
 
@@ -68,7 +74,7 @@ export default class FadeImage extends Component {
             <div ref='container' className={style.container} style={theStyle}>
                 <img ref='image' className={imageClasses.filter(v => v).join(' ')}
                      onLoad={this.onImgLoad} 
-                     onError={this.onImgError} 
+                     onError={this.onImgError}
                      style={this.props.style} 
                      />
             </div>
