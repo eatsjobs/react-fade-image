@@ -15,8 +15,8 @@ Includes this in your page (of course React should be already present)
 ```
 
 ```javascript
-<FadeImage with={640} height={480} src='https://placeimg.com/640/480/animals' blur={true}/>
-<FadeImage ratio='16:9' src='https://placeimg.com/640/320/animals/sepia />
+<FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' blur={true}/>
+<FadeImage ratio='16:9' src='https://placeimg.com/640/320/animals/sepia' />
 ```
 
 ## Contribute :)
