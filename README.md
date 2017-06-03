@@ -21,6 +21,6 @@ Includes this in your page (of course React should be already present)
 
 ## Contribute :)
 - yarn
-- npm run build
+- npm run build OR npm run build:prod
 - npm run start
 - npm run test:watch
