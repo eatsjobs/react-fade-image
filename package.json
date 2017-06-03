@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "preversion": "npm run test",
+    "version": "npm run build:prod && git add -A dist/",
     "transpile": "babel src --out-dir src5",
     "build": "webpack",
     "build:prod": "export NODE_ENV=production; webpack",
