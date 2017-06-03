@@ -9,7 +9,6 @@
         "modules": false
       }
     ],
-    "react",
-    "es2015"
+    "react"
   ]
 }
