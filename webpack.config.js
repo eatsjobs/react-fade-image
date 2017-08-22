@@ -1,5 +1,16 @@
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var minify = new webpack.optimize.UglifyJsPlugin({
+  minimize: true,
+  output: {
+    comments: false,
+  },
+  sourceMap: true,
+  compress: { warnings: false, screw_ie8: true },
+});
+
 // loader: 'style-loader!css-loader?modules=true&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader',
 var devConfiguration = {
   entry: {
@@ -39,12 +50,13 @@ var devConfiguration = {
       ],
   },
   plugins:[
-    new ExtractTextPlugin('fade-image.css')
+    new ExtractTextPlugin('fade-image.css'),    
   ],
   // module end
   resolve: {
     extensions: ['.js', '.es6', '.jsx'],
   },
+  // React and ReactDOM should be present in global scope
   externals: {
     react: {
         root: 'React'        
@@ -54,5 +66,9 @@ var devConfiguration = {
     }
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  devConfiguration.plugins.push(minify);
+}
 
 module.exports = devConfiguration;

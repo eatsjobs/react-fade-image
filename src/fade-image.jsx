@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
+import { throttle } from 'docomo-utils';
+
 import style from './fade-image.css';
 
 export default class FadeImage extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+
         this.onImgLoad = this.onImgLoad.bind(this);
         this.onImgError = this.onImgError.bind(this);
-        this.scrollHandler = this.scrollHandler.bind(this);
+        this.scrollHandler = throttle(this.scrollHandler.bind(this), 300);
         this.state = { loaded: false };
     }
 
-    onImgLoad(){
+    onImgLoad() {
         this.setState({ loaded: true });
+        window.removeEventListener('scroll', this.scrollHandler);
     }
 
-    onImgError(){
+    onImgError() {
         this.setState({ loaded: false });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.scrollHandler();
-        //TODO add throttle function
         window.addEventListener('scroll', this.scrollHandler);
     }
 
-    componentWillUnmount(){
-        window.removeEventListener('scroll', this.scrollHandler);
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.scrollHandler);        
     }
 
     scrollHandler(scrollEvent) {
@@ -36,7 +39,7 @@ export default class FadeImage extends Component {
         offsetTop += (height / 4);
         scrollTop += window.innerHeight;
         
-        //console.log("top of img:", offsetTop, "scrollTop:", scrollTop);
+        //console.log(`${scrollTop} >= ${offsetTop} ${scrollTop >= offsetTop}`);
         if (scrollTop >= offsetTop && !this.state.loaded) {
             //console.log("Append img src", this.props.src);
             this.refs.image.src = this.props.src;
@@ -45,6 +48,7 @@ export default class FadeImage extends Component {
     }
 
     render(){
+        //console.log("Render!");
         let imageClasses = [style.fadeImg];
         let loaded = this.state.loaded ? style.imgLoaded : null;
         let blur = this.props.blur ? style.blur : null;
@@ -69,7 +73,7 @@ export default class FadeImage extends Component {
             <div ref='container' className={style.container} style={theStyle}>
                 <img ref='image' className={imageClasses.filter(v => v).join(' ')}
                      onLoad={this.onImgLoad} 
-                     onError={this.onImgError} 
+                     onError={this.onImgError}
                      style={this.props.style} 
                      />
             </div>

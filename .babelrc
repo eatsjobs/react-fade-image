@@ -1,4 +1,15 @@
 {
-  "presets": [ "es2015", "react", "stage-0"],
-  "plugins": ["add-module-exports"]
+  "presets": [
+    [
+      "env",
+      {
+        "targets": { "browsers": ["last 1 android versions"] },        
+        "useBuiltIns": true,
+        "debug": true,
+        "modules": false
+      }
+    ],
+    "react",
+    "es2015"
+  ]
 }
