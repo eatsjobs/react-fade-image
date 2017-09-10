@@ -1,12 +1,12 @@
 {
   "name": "react-fade-image",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rvf lib/*",
     "preversion": "npm test",
-    "version": "npm run build && git add -A lib/",
+    "version": "npm run build && git add -Af lib/index.js",
     "build": "webpack",
     "build:prod": "export NODE_ENV=production; webpack -p",
     "test": "jest",
