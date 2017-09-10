@@ -1,26 +1,25 @@
 # react-fade-image
 
 Simple react lazy fade image component. 
-Every Image component has its own listener that is removed on componeWillunmount and once the image was loaded.
-The image loads when 1/4 of it become visible while scrolling. 
+The image loads when it's in viewport by listening to scroll event (with throttled function every 200ms)
 The Obstruction of the image is precalculate thanks to the [padding bottom trick](http://davidecalignano.it/lazy-loading-with-responsive-images-and-unknown-height/) 
 
 ## Usage
 
-Includes this in your page (of course React should be already present)
+Install via package manager
 
 ```javascript
-<link rel="stylesheet" type="text/css" href="node_modules/react-fade-image/dist/fade-image.css">
-<script src="node_modules/react-fade-image/dist/fade-image.js"></script>
+npm install react-fade-image --save
+OR
+yarn add react-fade-image
 ```
-
 ```javascript
-<FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' blur={true}/>
+<FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' />
+<FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' loaderComponent={<div>Loading...</div>}/>
 <FadeImage ratio='16:9' src='https://placeimg.com/640/320/animals/sepia' />
 ```
 
 ## Contribute :)
 - yarn
 - npm run build OR npm run build:prod
-- npm run start
 - npm run test:watch

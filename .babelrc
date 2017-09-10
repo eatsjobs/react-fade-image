@@ -1,15 +1,31 @@
 {
+  "plugins": [
+    "transform-object-rest-spread"
+  ],
   "presets": [
     [
       "env",
       {
-        "targets": { "browsers": ["last 1 android versions"] },        
+        "targets": {
+          "browsers": [
+            "last 1 android versions"
+          ]
+        },
         "useBuiltIns": true,
-        "debug": true,
+        "debug": false,
         "modules": false
       }
     ],
-    "react",
-    "es2015"
-  ]
+    "react"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "es2015"
+        ],
+        "react"
+      ]
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { throttle } from 'docomo-utils';
+import PropTypes from 'prop-types';
+import throttle from 'lodash.throttle';
 
+import isInViewport from './isInViewport';
 import style from './fade-image.css';
 
 export default class FadeImage extends Component {
@@ -9,17 +11,21 @@ export default class FadeImage extends Component {
 
         this.onImgLoad = this.onImgLoad.bind(this);
         this.onImgError = this.onImgError.bind(this);
-        this.scrollHandler = throttle(this.scrollHandler.bind(this), 300);
-        this.state = { loaded: false };
+        this.scrollHandler = throttle(this.scrollHandler.bind(this), 200, { leading: true });
+        this.state = {
+            src: this.props.src,
+            isLoaded: false
+        };
     }
 
     onImgLoad() {
-        this.setState({ loaded: true });
+        this.setState({ ...this.state, isLoaded: true });
         window.removeEventListener('scroll', this.scrollHandler);
     }
 
     onImgError() {
-        this.setState({ loaded: false });
+        this.setState({ ...this.state, isLoaded: false });
+        window.removeEventListener('scroll', this.scrollHandler);
     }
 
     componentDidMount() {
@@ -28,55 +34,72 @@ export default class FadeImage extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.scrollHandler);        
+        window.removeEventListener('scroll', this.scrollHandler);
     }
 
-    scrollHandler(scrollEvent) {
-        let scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-        const { top, height } = this.refs.container.getBoundingClientRect();
-        let offsetTop = this.refs.container.offsetTop;
-        
-        offsetTop += (height / 4);
-        scrollTop += window.innerHeight;
-        
-        //console.log(`${scrollTop} >= ${offsetTop} ${scrollTop >= offsetTop}`);
-        if (scrollTop >= offsetTop && !this.state.loaded) {
+    scrollHandler() {
+        if (isInViewport(this.refs.container) && !this.state.loaded) {
             //console.log("Append img src", this.props.src);
-            this.refs.image.src = this.props.src;
-            window.removeEventListener('scroll', this.scrollHandler);
+            this.loadImage();
         }
     }
 
-    render(){
+    loadImage() {
+        this.imageElement.src = this.state.src;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.src !== nextProps.src) {
+            this.setState({ isLoaded: false, src: nextProps.src }, this.loadImage);
+        }
+    }
+    render() {
         //console.log("Render!");
         let imageClasses = [style.fadeImg];
-        let loaded = this.state.loaded ? style.imgLoaded : null;
-        let blur = this.props.blur ? style.blur : null;
-        imageClasses = imageClasses.concat([loaded, blur]);
-        
+        let loaded = this.state.isLoaded ? style.loaded : null;
+        imageClasses.push(loaded);
+
         /**
          * Padding bottom image is a trick to calculate the space
          * that the image will cover in document
          * http://davidecalignano.it/lazy-loading-with-responsive-images-and-unknown-height/
          */
         let theStyle = {};
-        let w, h;
+        let width, height;
         if (this.props.ratio) {
-            [w, h] = this.props.ratio.split(':');
+            [width, height] = this.props.ratio.split(':');
         } else if (this.props.height && this.props.width) {
-            w = this.props.width;
-            h = this.props.height;
+            width = this.props.width;
+            height = this.props.height;
         }
 
-        theStyle = { paddingBottom: `${(h / w) * 100}%` }
+        const result = ((height / width) * 100);
+        theStyle = { paddingBottom: `${result}%` };
+
         return (
             <div ref='container' className={style.container} style={theStyle}>
-                <img ref='image' className={imageClasses.filter(v => v).join(' ')}
-                     onLoad={this.onImgLoad} 
-                     onError={this.onImgError}
-                     style={this.props.style} 
-                     />
+                {this.state.isLoaded ? null : this.props.loaderComponent}
+                <img ref={(image) => this.imageElement = image} className={imageClasses.join(' ')}
+                    onLoad={this.onImgLoad}
+                    onError={this.onImgError}
+                    style={this.props.style}
+                    alt={this.props.alt}
+                />
             </div>
         )
     }
+}
+
+FadeImage.propTypes = {
+    src: PropTypes.string,
+    ratio: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    loaderComponent: PropTypes.element
+}
+
+FadeImage.defaultProps = {
+    src: '',
+    ratio: '4:3',
+    loaderComponent: null
 }

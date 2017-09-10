@@ -5,6 +5,14 @@
     background: transparent;
 }
 
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .fadeImg {
     position: absolute;
     top: 0;
@@ -16,14 +24,6 @@
     transition: opacity 300ms, 300ms filter linear; 
 }
 
-.fadeImg.blur{
-    filter: blur(50px);
-}
-
-.fadeImg.imgLoaded.blur{
-    filter: blur(0);
-}
-
-.fadeImg.imgLoaded {
+.fadeImg.loaded {
     opacity: 1;
 }

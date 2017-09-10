@@ -1,5 +1,5 @@
 module.exports = {
     fadeImg: 'fadeImg',
-    container:'container',
+    container: 'container',
     imgLoaded: 'imgLoaded'
 };

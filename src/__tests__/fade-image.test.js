@@ -1,29 +1,40 @@
 import React from 'react';
+import FadeImage from '../fade-image';
 import { mount } from 'enzyme';
-import FadeImage from '../fade-image'
+import * as deps from '../isInViewport';
 
-describe('FadeImage tests', function(){
-    it('FadeImage: test first scrollHandler call', () => {
-    
-        spyOn(FadeImage.prototype, 'scrollHandler');
-        spyOn(FadeImage.prototype, 'componentWillUnmount');
-        
-        const ratio = '16:9';
-        const src = 'https://placeimg.com/640/480/animals';
-        const wrapper = mount(
-            <FadeImage ratio={ratio} src={src} />
-        );
+describe('FadeImage tests', function () {
+    it('FadeImage: in viewport should render', function () {
+        deps.default = () => true;
+        const src = "https://placeimg.com/640/480/any";
+        const wrapper = mount(<FadeImage src={src} ratio='16:9' />);
+        expect(wrapper.state().src).toEqual(src);
+        //wrapper.instance().scrollHandler();
+        expect(wrapper.state().isLoaded).toEqual(true);
 
-        expect(wrapper.find('img')).toHaveLength(1);
-        expect(FadeImage.prototype.scrollHandler).toHaveBeenCalled();
-        expect(wrapper.prop('ratio')).toEqual(ratio);
-        expect(wrapper.prop('src')).toEqual(src);
-        
-        wrapper.instance().onImgLoad();
-        expect(wrapper.state('loaded')).toBe(true);
+        wrapper.setProps({ src: src + '?a=1' })
+        wrapper.update();
+        expect(wrapper.state().src).toEqual(src + '?a=1');
+        expect(wrapper.state().isLoaded).toEqual(true);
 
-        wrapper.unmount();
-        expect(FadeImage.prototype.componentWillUnmount).toHaveBeenCalled();
-        
+    });
+
+    it('FadeImage: when not in viewport then in viewport', function (done) {
+        deps.default = () => false;
+        const src = "https://placeimg.com/640/480/any";
+        const wrapper = mount(<FadeImage src={src} ratio='16:9' />);
+
+        expect(wrapper.state().src).toEqual(src);
+        wrapper.instance().scrollHandler();
+        expect(wrapper.state().isLoaded).toEqual(false);
+
+        deps.default = () => true;
+        setTimeout(() => {
+            wrapper.instance().scrollHandler();
+            expect(wrapper.state().isLoaded).toEqual(true);
+            //console.log(wrapper.debug())
+            done()
+        }, 300);
+
     });
 });
