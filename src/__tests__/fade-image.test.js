@@ -1,5 +1,5 @@
 import React from 'react';
-import FadeImage from '../fade-image';
+import FadeImage from '../index';
 import { mount } from 'enzyme';
 import * as deps from '../isInViewport';
 

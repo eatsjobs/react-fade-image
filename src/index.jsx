@@ -1,11 +1,29 @@
+'use strict';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 
 import isInViewport from './isInViewport';
-import style from './fade-image.css';
+import style from './index.css';
 
 export default class FadeImage extends Component {
+    static get propTypes() {
+        return {
+            src: PropTypes.string,
+            ratio: PropTypes.string,
+            width: PropTypes.number,
+            height: PropTypes.number,
+            loaderComponent: PropTypes.element
+        }
+    }
+
+    static get defaultProps() {
+        return {
+            src: '',
+            ratio: '4:3',
+            loaderComponent: null
+        }
+    }
     constructor(props) {
         super(props);
 
@@ -19,12 +37,12 @@ export default class FadeImage extends Component {
     }
 
     onImgLoad() {
-        this.setState({ ...this.state, isLoaded: true });
+        this.setState({ src: this.state.src, isLoaded: true });
         window.removeEventListener('scroll', this.scrollHandler);
     }
 
     onImgError() {
-        this.setState({ ...this.state, isLoaded: false });
+        this.setState({ src: this.state.src, isLoaded: false });
         window.removeEventListener('scroll', this.scrollHandler);
     }
 
@@ -53,6 +71,7 @@ export default class FadeImage extends Component {
             this.setState({ isLoaded: false, src: nextProps.src }, this.loadImage);
         }
     }
+
     render() {
         //console.log("Render!");
         let imageClasses = [style.fadeImg];
@@ -90,16 +109,3 @@ export default class FadeImage extends Component {
     }
 }
 
-FadeImage.propTypes = {
-    src: PropTypes.string,
-    ratio: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    loaderComponent: PropTypes.element
-}
-
-FadeImage.defaultProps = {
-    src: '',
-    ratio: '4:3',
-    loaderComponent: null
-}

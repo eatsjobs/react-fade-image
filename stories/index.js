@@ -6,7 +6,7 @@ import { linkTo } from '@storybook/addon-links';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 
 import { Button, Welcome } from '@storybook/react/demo';
-import FadeImage from '../src/fade-image';
+import FadeImage from '../src/index';
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
