@@ -23,20 +23,19 @@ var devConfiguration = {
       {
         test: /\.css$/,
         exclude: /(bower_components|node_modules)/,
-        use: 'css-loader?modules=true&importLoaders=1&localIdentName=[name]_[hash:3]' 
-        /*ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?modules=true&importLoaders=1&localIdentName=[name]_[hash:3]'
-        })*/
-        /*{ loader: 'style-loader' },
+        use: [{ loader: 'style-loader' },
         { 
           loader: 'css-loader', 
           options: { 
             modules: true,
             importLoaders: 1,
-            localIdentName: '[name]_[local]',
+            localIdentName: '[name]_[hash:3]',
           }
-        }*/
+        }]
+        /*ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader?modules=true&importLoaders=1&localIdentName=[name]_[hash:3]'
+        })*/        
       }
     ],
   },
