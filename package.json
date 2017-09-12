@@ -13,13 +13,15 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "author": "eatsjobs",
   "license": "ISC",
   "devDependencies": {
     "@storybook/addon-knobs": "^3.2.8",
     "@storybook/react": "^3.2.8",
+    "@storybook/storybook-deployer": "^2.0.0",
     "babel-cli": "^6.24.1",
     "babel-jest": "^20.0.1",
     "babel-loader": "^6.4.1",
