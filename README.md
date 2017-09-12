@@ -1,5 +1,6 @@
 # react-fade-image
 
+[Little demo with Storybook here](https://eatsjobs.github.io/react-lazy-image/)
 Simple react lazy fade image component. 
 The image loads when it's in viewport by listening to scroll event (with throttled function every 200ms)
 The Obstruction of the image is precalculate thanks to the [padding bottom trick](http://davidecalignano.it/lazy-loading-with-responsive-images-and-unknown-height/) 
