@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import throttle from 'lodash.throttle';
 
 import isInViewport from './isInViewport';
@@ -78,11 +79,7 @@ export default class FadeImage extends Component {
         let loaded = this.state.isLoaded ? style.loaded : null;
         imageClasses.push(loaded);
 
-        /**
-         * Padding bottom image is a trick to calculate the space
-         * that the image will cover in document
-         * http://davidecalignano.it/lazy-loading-with-responsive-images-and-unknown-height/
-         */
+        
         let theStyle = {};
         let width, height;
         if (this.props.ratio) {
@@ -108,4 +105,3 @@ export default class FadeImage extends Component {
         )
     }
 }
-
