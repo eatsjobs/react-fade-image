@@ -16,8 +16,15 @@
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
   },
-  "author": "eatsjobs",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eatsjobs/react-fade-image"
+  },
+  "author": {
+    "name": "Pasquale Mangialavori",
+    "url": "https://twitter.com/p_mangialavori"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@storybook/addon-knobs": "^3.2.8",
     "@storybook/react": "^3.2.8",
