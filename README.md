@@ -13,6 +13,11 @@ npm install react-fade-image --save
 OR
 yarn add react-fade-image
 ```
+
+```javascript
+import FadeImage from 'react-fade-image';
+```
+
 ```javascript
 <FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' />
 <FadeImage width={640} height={480} src='https://placeimg.com/640/480/animals' loaderComponent={<div>Loading...</div>}/>
@@ -21,5 +26,5 @@ yarn add react-fade-image
 
 ## Contribute :)
 - yarn
-- npm run build OR npm run build:prod
+- npm run build
 - npm run test:watch
