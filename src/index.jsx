@@ -1,10 +1,6 @@
-'use strict';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import throttle from 'lodash.throttle';
-
-import isInViewport from './isInViewport';
+import { isIntersecting } from './intersectionObserver';
 import style from './index.css';
 
 export default class FadeImage extends Component {
@@ -29,8 +25,8 @@ export default class FadeImage extends Component {
         super(props);
 
         this.onImgLoad = this.onImgLoad.bind(this);
-        this.onImgError = this.onImgError.bind(this);
-        this.scrollHandler = throttle(this.scrollHandler.bind(this), 200, { leading: true });
+        this.onImgError = this.onImgError.bind(this);       
+
         this.state = {
             src: this.props.src,
             isLoaded: false
@@ -38,29 +34,35 @@ export default class FadeImage extends Component {
     }
 
     onImgLoad() {
-        this.setState({ src: this.state.src, isLoaded: true });
-        window.removeEventListener('scroll', this.scrollHandler);
+        this.setState({ src: this.state.src, isLoaded: true });        
     }
 
     onImgError() {
-        this.setState({ src: this.state.src, isLoaded: false });
-        window.removeEventListener('scroll', this.scrollHandler);
+        this.setState({ src: this.state.src, isLoaded: false });        
     }
 
     componentDidMount() {
-        this.scrollHandler();
-        window.addEventListener('scroll', this.scrollHandler);
+        const options = {
+            root: null,
+            rootMargin: "0px",
+            threshold: .5
+        };
+        
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (isIntersecting(entry)) {
+                    this.loadImage();
+                    this.observer.unobserve(this.refs.container);
+                }                
+            });
+        }, options);
+        this.observer.observe(this.refs.container);        
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.scrollHandler);
-    }
-
-    scrollHandler() {
-        if (isInViewport(this.refs.container) && !this.state.loaded) {
-            //console.log("Append img src", this.props.src);
-            this.loadImage();
-        }
+        if (this.observer) {
+            this.observer.unobserve(this.refs.container);
+        }   
     }
 
     loadImage() {

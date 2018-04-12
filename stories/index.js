@@ -1,4 +1,5 @@
 import React from 'react';
+import 'intersection-observer';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -7,9 +8,11 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 
 import { Button, Welcome } from '@storybook/react/demo';
 import FadeImage from '../src/index';
-const fadeImageStoy = storiesOf('FadeImage', module)
-fadeImageStoy.addDecorator(withKnobs);
-fadeImageStoy.add('opacity', () => {
+
+const fadeImageStory = storiesOf('FadeImage', module)
+fadeImageStory.addDecorator(withKnobs);
+
+fadeImageStory.add('opacity', () => {
   const inline = { width: '50%', margin: '0 auto' };
   const spacer = { width: '100%', display: 'block', height: '768px', };
   return (
@@ -38,4 +41,56 @@ fadeImageStoy.add('opacity', () => {
       </div>
     </div>
   )
-})
+});
+
+fadeImageStory.add('horizontal scroll', () => {
+  const overflowScrollStyle = { 
+    display: "flex",
+    minWidth: "100%",
+    minHeight: "200px",
+    overflowX: "auto"
+  };
+  const arr = new Array(10).fill(1);
+  console.log(arr)
+  return (
+    <div style={overflowScrollStyle}>
+      {arr.map((_, i) => {
+        return (
+          <div style={{ minWidth: '300px', margin: '5px' }} key={`${i}_item_XVC`}>
+            <FadeImage src={text('Image src', 'https://placeimg.com/400/300/animals')}
+              width={number('Width', 400)}
+              height={number('Height', 300)}
+              ratio={text('Ratio', '4:3')}
+            />
+          </div>)
+      })}
+    </div>
+  )
+});
+
+fadeImageStory.add('vertical scroll', () => {
+  const overflowScrollStyle = { 
+    display: "flex",
+    flexDirection: "column",
+    width: "60%",
+    minHeight: "200px",
+    overflowY: "auto"
+  }
+  const arr = new Array(10).fill(1);
+  console.log(arr)
+  return (
+    <div style={overflowScrollStyle}>
+      {arr.map((_, i) => {
+        return (
+          <div style={{ minWidth: '300px', margin: '5px' }} key={`${i}_item_CVX`}>
+            <FadeImage src={text('Image src', 'https://placeimg.com/400/300/animals')}
+              width={number('Width', 400)}
+              height={number('Height', 300)}
+              ratio={text('Ratio', '4:3')}
+              loaderComponent={<div>Loading...</div>}
+            />
+          </div>)
+      })}
+    </div>
+  )
+});
