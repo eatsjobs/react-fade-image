@@ -1,6 +1,6 @@
 {
   "name": "react-fade-image",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -52,8 +52,7 @@
     "webpack-dev-server": "^2.7.1",
     "intersection-observer": "^0.5.0"
   },
-  "dependencies": {    
-  },
+  "dependencies": {},
   "peerDependencies": {
     "intersection-observer": "^0.5.0",
     "react": "^15.6.1"
