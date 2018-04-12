@@ -17,7 +17,7 @@ export default class FadeImage extends Component {
     static get defaultProps() {
         return {
             src: '',
-            ratio: '4:3',
+            ratio: null,
             loaderComponent: null
         }
     }
