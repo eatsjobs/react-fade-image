@@ -13,7 +13,7 @@
     transform: translate(-50%, -50%);
 }
 
-.fadeImg {
+.Img {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,9 +21,31 @@
     height: 100%;
     border: 0;
     opacity: 0;
-    transition: opacity 300ms, 300ms filter linear; 
+    background-color: black;
 }
 
-.fadeImg.loaded {
+.fadeBase {
     opacity: 1;
+}
+
+.Img.fade500ms {
+    -webkit-transition: opacity .5s ease;
+    -moz-transition: opacity .5s ease;
+    -o-transition: opacity .5s ease;
+    transition: opacity .5s ease;    
+}
+
+.Img.fade1s {
+    -webkit-transition: opacity 1s ease;
+    -moz-transition: opacity 1s ease;
+    -o-transition: opacity 1s ease;
+    transition: opacity 1s ease;    
+}
+
+.Img.fadeIn {
+    opacity: 1;
+}
+
+.Img.fadeOut {
+    opacity: 0;
 }

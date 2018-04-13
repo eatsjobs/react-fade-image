@@ -69,10 +69,11 @@ fadeImageStory.add('horizontal scroll', () => {
 });
 
 fadeImageStory.add('vertical scroll', () => {
-  const overflowScrollStyle = { 
+  const overflowScrollStyle = {
+    margin: '0 auto',
     display: "flex",
     flexDirection: "column",
-    width: "60%",
+    width: "30%",
     minHeight: "200px",
     overflowY: "auto"
   }
@@ -83,11 +84,12 @@ fadeImageStory.add('vertical scroll', () => {
       {arr.map((_, i) => {
         return (
           <div style={{ minWidth: '300px', margin: '5px' }} key={`${i}_item_CVX`}>
-            <FadeImage src={text('Image src', 'https://placeimg.com/400/300/animals')}
+            <FadeImage src={text('Image src', i === 2 ? 'https://asd.placeimg.com/400/300/somenthingnotexists' : 'https://placeimg.com/400/300/animals')}
               width={number('Width', 400)}
               height={number('Height', 300)}
               ratio={text('Ratio', '4:3')}
-              loaderComponent={<div>Loading...</div>}
+              loaderComponent={<div style={{ position: 'absolute', top:'50%', left: '50%', transform: 'translate(-50%,-50%)', width: '100%', height: '100%', background: 'lightgrey' }}>Loading...</div>}
+              errorComponent={<div style={{ position: 'absolute', top:'50%', left: '50%', transform: 'translate(-50%,-50%)', background: 'red', width: '100%', height: '100%' }}>Error...</div>}
             />
           </div>)
       })}
