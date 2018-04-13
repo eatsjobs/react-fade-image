@@ -45,7 +45,7 @@ export default class FadeImage extends Component {
         const options = {
             root: null,
             rootMargin: "0px",
-            threshold: .2
+            threshold: .1
         };
         
         this.observer = new IntersectionObserver((entries) => {
